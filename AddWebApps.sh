@@ -5,7 +5,7 @@ clear
 
 # Get current username and define path
 USER_NAME=$(whoami)
-TARGET_DIR="/home/$USER_NAME/WebApps/Scripts"
+TARGET_DIR="/home/$USER_NAME/WebApps/"
 
 # Create the directory if it doesn't exist
 mkdir -p "$TARGET_DIR"
@@ -27,10 +27,9 @@ done
 # Ask for Scaling
 echo "-------------------------------------------------------"
 echo "Select Scaling Factor (Standard is 1.0)"
-echo "Recommendation: Use '2' for 4K TVs or '1.25' for 1080p"
 echo "-------------------------------------------------------"
-read -p "Enter scale factor [Default 2]: " scale_factor
-scale_factor=${scale_factor:-2}
+read -p "Enter scale factor [Default 1]: " scale_factor
+scale_factor=${scale_factor:-1}
 
 # Navigate to the target folder
 cd "$TARGET_DIR" || exit
@@ -38,7 +37,7 @@ cd "$TARGET_DIR" || exit
 # --- Script Generation ---
 cat <<EOF > "$app_name.sh"
 #!/bin/bash
-/usr/bin/flatpak run --branch=stable --arch=x86_64 com.microsoft.Edge --new-window --force-device-scale-factor=$scale_factor --kiosk "$site_url"
+/usr/bin/flatpak run --branch=stable --arch=x86_64 com.microsoft.Edge --new-window --force-device-scale-factor=$scale_factor --force-dark-mode --enable-features=WebContentsForceDark --kiosk "$site_url"
 EOF
 
 chmod +x ./"$app_name.sh"
